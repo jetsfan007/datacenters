@@ -30,7 +30,7 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                     foreach($detailareadom->find("div[class='lefttext'] div[class~='DCColumn'] a[title]") as $detailareadata){
                         $datacenter = $detailareadata->plaintext;                        
                         $datacenterurl = $detailareadata->href;
-                        $datacenterhtml = scraperWiki::scrape("http://www.datacentermap.com/".strtolower($country)."/".strtolower($detailarea)."/".strtolower($datacenterurl));
+                        $datacenterhtml = scraperWiki::scrape("http://www.datacentermap.com/".strtolower($country)."/".strtolower($area)."/".strtolower($detailarea)."/".strtolower($datacenterurl));
                         $datacenterdom = new simple_html_dom();
                         $datacenterdom->load($datacenterhtml);
                         if (strcmp($detailarea,$area)!=0){
