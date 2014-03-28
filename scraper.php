@@ -139,7 +139,7 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                             'accuracy' => utf8_encode($locationarray['location_type'])
                         );
                         //print json_encode($record) . "\n";
-                        scraperwiki::save(array('country','area','detailarea','datacenterCity','datacenterName','postal-code','street-address','organizationName','latitude','longitude','accuracy'), $record);
+                        scraperwiki::save(array('country','area','detailarea','datacenterCity','datacenterName','postal-code','street-address','organizationName','latitude','longitude','accuracy'), $record, 'data');
                     }
                 }
             }
