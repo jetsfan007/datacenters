@@ -79,7 +79,8 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                             'longitude' => $locationarray['long'],
                             'accuracy' => utf8_encode($locationarray['location_type']),
                         );
-                        scraperwiki::save(unique_keys=[], $record, 'data');
+                        $unique_keys=array();
+                        scraperwiki::save($unique_keys, $record, 'data');
                     }
                 }
                 else {            
@@ -140,7 +141,8 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                         );
                         //print json_encode($record) . "\n";
                         //array('country','area','detailarea','datacenterCity','datacenterName','postal-code','street-address','organizationName','latitude','longitude','accuracy')
-                        scraperwiki::save(unique_keys=[], $record, 'data');
+                        $unique_keys=array();
+                        scraperwiki::save($unique_keys, $record, 'data');
                     }
                 }
             }
