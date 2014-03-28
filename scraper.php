@@ -1,4 +1,5 @@
 <?php
+require 'scraperwiki.php';
 
 $html = scraperWiki::scrape("http://www.datacentermap.com/datacenters.html");
 
