@@ -30,65 +30,77 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                     $areadom = new simple_html_dom();
                     $areadom->load($areahtml);
                     $address=$area.', '.$country;
-                    foreach($detailareadom->find("div[class='lefttext'] div[class~='DCColumn'] a[title]") as $detailareadata){
-                        $datacenter = $detailareadata->plaintext;                        
-                        $datacenterurl = $detailareadata->href;
-                        $datacenterhtml = scraperWiki::scrape("http://www.datacentermap.com/".strtolower($country)."/".strtolower($area)."/".strtolower($detailarea)."/".strtolower($datacenterurl));
-                        $datacenterdom = new simple_html_dom();
-                        $datacenterdom->load($datacenterhtml);
-                        if (strcmp($detailarea,$area)!=0){
-                            $address=$detailarea.', '.$address;
-                        }
-                        $datacenterstreet=" ";
-                        $datacentercity=" ";
-                        $datacenterpostal=" ";
-                        $datacenterorgname=" ";
-                        foreach($datacenterdom->find("div[class='adr']") as $datacenterdata){ 
-                            $dc = $datacenterdata->find("span[class='locality']");
-                            if (count($dc)==1){
-                                $datacentercity = $dc[0]->innertext;
-                                if (strcmp($datacentercity,$detailarea)!=0){
-                                    $address=$datacentercity.', '.$address;
-                                }
-                            }
-                            $dc = $datacenterdata->find("span[class='postal-code']");
-                            if (count($dc)==1){
-                                $datacenterpostal = $dc[0]->innertext;
-                                $address=$datacenterpostal.', '.$address;
-                            }
-                            $dc = $datacenterdata->find("div[class='street-address']");
-                            if (count($dc)==1){
-                                $datacenterstreet = $dc[0]->innertext;
-                                $address=$datacenterstreet.', '.$address;
-                            }
-                            $dc = $datacenterdata->find("span[class='organization-name']");
-                            if (count($dc)==1){
-                                $datacenterorgname = $dc[0]->innertext;
-                                $address=$datacenterorgname.', '.$address;
-                            }                                                                       
 
-                        }
-                        $locationarray = lookup(utf8_encode($address));
-                        $record = array(
-                            'country' => utf8_encode($country),
-                            'area' => utf8_encode($area),
-                            'detailarea' => utf8_encode($detailarea),
-                            'datacentercity' => utf8_encode($datacentercity),
-                            'datacentername' => utf8_encode($datacenter),
-                            'postalcode' => utf8_encode($datacenterpostal),                                     
-                            'streetaddress' => utf8_encode($datacenterstreet),
-                            'organizationname' => utf8_encode($datacenterorgname),
-                            'latitude' => $locationarray['lat'],
-                            'longitude' => $locationarray['long'],
-                            'accuracy' => utf8_encode($locationarray['location_type']),
-                        );
-                        scraperwiki::save_sqlite($unique_keys, $record);
-                    }
+			        foreach($areadom->find("div[class='lefttext'] div[class] a") as $areadata){
+			            $bbbs = $areadata->find("b");
+	            		if(count($bbbs)==1){
+		                	$areainput = $bbbs[0]->plaintext;
+		                    $detailarea = substr($areainput,0,strpos($areainput,' ('));
+		                    $detailareahtml = scraperWiki::scrape("http://www.datacentermap.com/".strtolower($country)."/".strtolower($area)."/".strtolower($detailarea)."/");
+		                    $detailareadom = new simple_html_dom();
+		                    $detailareadom->load($detailareahtml);
+		                    foreach($detailareadom->find("div[class='lefttext'] div[class~='DCColumn'] a[title]") as $detailareadata){
+		                        $datacenter = $detailareadata->plaintext;                        
+		                        $datacenterurl = $detailareadata->href;
+		                        $datacenterhtml = scraperWiki::scrape("http://www.datacentermap.com/".strtolower($country)."/".strtolower($area)."/".strtolower($detailarea)."/".strtolower($datacenterurl));
+		                        $datacenterdom = new simple_html_dom();
+		                        $datacenterdom->load($datacenterhtml);
+		                        if (strcmp($detailarea,$area)!=0){
+		                            $address=$detailarea.', '.$address;
+		                        }
+		                        $datacenterstreet=" ";
+		                        $datacentercity=" ";
+		                        $datacenterpostal=" ";
+		                        $datacenterorgname=" ";
+		                        foreach($datacenterdom->find("div[class='adr']") as $datacenterdata){ 
+		                            $dc = $datacenterdata->find("span[class='locality']");
+		                            if (count($dc)==1){
+		                                $datacentercity = $dc[0]->innertext;
+		                                if (strcmp($datacentercity,$detailarea)!=0){
+		                                    $address=$datacentercity.', '.$address;
+		                                }
+		                            }
+		                            $dc = $datacenterdata->find("span[class='postal-code']");
+		                            if (count($dc)==1){
+		                                $datacenterpostal = $dc[0]->innertext;
+		                                $address=$datacenterpostal.', '.$address;
+		                            }
+		                            $dc = $datacenterdata->find("div[class='street-address']");
+		                            if (count($dc)==1){
+		                                $datacenterstreet = $dc[0]->innertext;
+		                                $address=$datacenterstreet.', '.$address;
+		                            }
+		                            $dc = $datacenterdata->find("span[class='organization-name']");
+		                            if (count($dc)==1){
+		                                $datacenterorgname = $dc[0]->innertext;
+		                                $address=$datacenterorgname.', '.$address;
+		                            }                                                                       
+		                        }
+		                        
+		                        $locationarray = lookup(utf8_encode($address));
+		                        $record = array(
+		                            'country' => utf8_encode($country),
+		                            'area' => utf8_encode($area),
+		                            'detailarea' => utf8_encode($detailarea),
+		                            'datacentercity' => utf8_encode($datacentercity),
+		                            'datacentername' => utf8_encode($datacenter),
+		                            'postalcode' => utf8_encode($datacenterpostal),                                     
+		                            'streetaddress' => utf8_encode($datacenterstreet),
+		                            'organizationname' => utf8_encode($datacenterorgname),
+		                            'latitude' => $locationarray['lat'],
+		                            'longitude' => $locationarray['long'],
+		                            'accuracy' => utf8_encode($locationarray['location_type']),
+		                        );
+		                        scraperwiki::save($unique_keys, $record);
+		                        
+		                    }
+	            		}
+			        }
                 }
                 else {            
                     $detailarea=$area;
                     //print "datacenter: ".$datacenter.(strpos($countryinput,'(')+1)."-".(substr($countryinput, (strpos($countryinput,'(')+1),-1))." :";
-                    $amount = intval(substr($countryinput, (strpos($countryinput,'(')+1),-1));
+                    //$amount = intval(substr($countryinput, (strpos($countryinput,'(')+1),-1));
                     $detailareahtml = scraperWiki::scrape("http://www.datacentermap.com/".strtolower($country)."/".strtolower($detailarea)."/");
                     $detailareadom = new simple_html_dom();
                     $detailareadom->load($detailareahtml);
@@ -143,7 +155,7 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                         );
                         //print json_encode($record) . "\n";
                         
-                        scraperwiki::save_sqlite($unique_keys, $record);
+                        scraperwiki::save($unique_keys, $record);
                     }
                 }
             }
@@ -158,7 +170,7 @@ function lookup($string){
    $string = str_replace(" ", "+", urlencode($string));
    //$details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$string."&sensor=false";
    $details_url = "http://nominatim.openstreetmap.org/search?q=".$string."&format=json";   
-	print_r($details_url);
+	//print_r($details_url);
  
    $ch = curl_init();
    curl_setopt($ch, CURLOPT_URL, $details_url);
@@ -208,7 +220,7 @@ function lookup($string){
     }
    if (empty($response[0])){
 	  $details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$string."&sensor=false";
-  	  print_r($details_url);
+  	  //print_r($details_url);
 	  $ch = curl_init();
 	  curl_setopt($ch, CURLOPT_URL, $details_url);
 	  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
