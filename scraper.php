@@ -9,7 +9,7 @@ $dom = new simple_html_dom();
 $dom->load($html);
 mb_convert_encoding($dom, "ISO-8859-1", "UTF-8");
 
-$unique_keys=array('country','area','detailarea','datacenterCity','datacenterName','postalCode','streetAddress','organizationName','latitude','longitude','accuracy');
+$unique_keys=array('country','area','detailarea','datacentercity','datacentername','postalcode','streetaddress','organizationname','latitude','longitude','accuracy');
 
 foreach($dom->find("div[class='lefttext'] div[class] a") as $data){ 
     $bs = $data->find("b");
@@ -73,11 +73,11 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                             'country' => utf8_encode($country),
                             'area' => utf8_encode($area),
                             'detailarea' => utf8_encode($detailarea),
-                            'datacenterCity' => utf8_encode($datacentercity),
-                            'datacenterName' => utf8_encode($datacenter),
-                            'postalCode' => utf8_encode($datacenterpostal),                                     
-                            'streetAddress' => utf8_encode($datacenterstreet),
-                            'organizationName' => utf8_encode($datacenterorgname),
+                            'datacentercity' => utf8_encode($datacentercity),
+                            'datacentername' => utf8_encode($datacenter),
+                            'postalcode' => utf8_encode($datacenterpostal),                                     
+                            'streetaddress' => utf8_encode($datacenterstreet),
+                            'organizationname' => utf8_encode($datacenterorgname),
                             'latitude' => $locationarray['lat'],
                             'longitude' => $locationarray['long'],
                             'accuracy' => utf8_encode($locationarray['location_type']),
@@ -132,11 +132,11 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                             'country' => utf8_encode($country),
                             'area' => utf8_encode($area),
                             'detailarea' => utf8_encode($detailarea),
-                            'datacenterCity' => utf8_encode($datacentercity),
-                            'datacenterName' => utf8_encode($datacenter),
-                            'postalCode' => utf8_encode($datacenterpostal),                                     
-                            'streetAddress' => utf8_encode($datacenterstreet),
-                            'organizationName' => utf8_encode($datacenterorgname),
+                            'datacentercity' => utf8_encode($datacentercity),
+                            'datacentername' => utf8_encode($datacenter),
+                            'postalcode' => utf8_encode($datacenterpostal),                                     
+                            'streetaddress' => utf8_encode($datacenterstreet),
+                            'organizationname' => utf8_encode($datacenterorgname),
                             'latitude' => $locationarray['lat'],
                             'longitude' => $locationarray['long'],
                             'accuracy' => utf8_encode($locationarray['location_type'])
