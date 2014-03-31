@@ -9,7 +9,7 @@ $dom = new simple_html_dom();
 $dom->load($html);
 mb_convert_encoding($dom, "ISO-8859-1", "UTF-8");
 
-$unique_keys=array('country','area','detailarea','datacenterCity','datacenterName','postal-code','street-address','organizationName','latitude','longitude','accuracy');
+$unique_keys=array('country','area','detailarea','datacenterCity','datacenterName','postalCode','streetAddress','organizationName','latitude','longitude','accuracy');
 
 foreach($dom->find("div[class='lefttext'] div[class] a") as $data){ 
     $bs = $data->find("b");
@@ -75,8 +75,8 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                             'detailarea' => utf8_encode($detailarea),
                             'datacenterCity' => utf8_encode($datacentercity),
                             'datacenterName' => utf8_encode($datacenter),
-                            'postal-code' => utf8_encode($datacenterpostal),                                     
-                            'street-address' => utf8_encode($datacenterstreet),
+                            'postalCode' => utf8_encode($datacenterpostal),                                     
+                            'streetAddress' => utf8_encode($datacenterstreet),
                             'organizationName' => utf8_encode($datacenterorgname),
                             'latitude' => $locationarray['lat'],
                             'longitude' => $locationarray['long'],
@@ -134,8 +134,8 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                             'detailarea' => utf8_encode($detailarea),
                             'datacenterCity' => utf8_encode($datacentercity),
                             'datacenterName' => utf8_encode($datacenter),
-                            'postal-code' => utf8_encode($datacenterpostal),                                     
-                            'street-address' => utf8_encode($datacenterstreet),
+                            'postalCode' => utf8_encode($datacenterpostal),                                     
+                            'streetAddress' => utf8_encode($datacenterstreet),
                             'organizationName' => utf8_encode($datacenterorgname),
                             'latitude' => $locationarray['lat'],
                             'longitude' => $locationarray['long'],
