@@ -8,6 +8,9 @@ require 'scraperwiki/simple_html_dom.php';
 $dom = new simple_html_dom();
 $dom->load($html);
 mb_convert_encoding($dom, "ISO-8859-1", "UTF-8");
+
+$unique_keys=array('country','area','detailarea','datacenterCity','datacenterName','postal-code','street-address','organizationName','latitude','longitude','accuracy');
+
 foreach($dom->find("div[class='lefttext'] div[class] a") as $data){ 
     $bs = $data->find("b");
     if(count($bs)==1){
@@ -79,8 +82,7 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                             'longitude' => $locationarray['long'],
                             'accuracy' => utf8_encode($locationarray['location_type']),
                         );
-
-                        scraperwiki::save_sqlite(array('country','area','detailarea','datacenterCity','datacenterName','postal-code','street-address','organizationName','latitude','longitude','accuracy'), $record);
+                        scraperwiki::save_sqlite($unique_keys, $record, $table_name="data");
                     }
                 }
                 else {            
@@ -141,8 +143,7 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                         );
                         //print json_encode($record) . "\n";
                         
-                        $unique_keys=array();
-                        scraperwiki::save_sqlite(array('country','area','detailarea','datacenterCity','datacenterName','postal-code','street-address','organizationName','latitude','longitude','accuracy'), $record);
+                        scraperwiki::save_sqlite($unique_keys, $record, $table_name="data");
                     }
                 }
             }
