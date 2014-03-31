@@ -155,10 +155,10 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
 function lookup($string){
    $newsearch = explode(',',utf8_decode($string));
    //print_r(count($newsearch).' '.$newsearch[count($newsearch)-5].', '.$newsearch[count($newsearch)-4].', '.$newsearch[count($newsearch)-3].', '.$newsearch[count($newsearch)-2].', '.$newsearch[count($newsearch)-1]);
-   $string = str_replace (" ", "+", urlencode($string));
-   $details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$string."&sensor=false";
+   $string = str_replace(" ", "+", urlencode($string));
+   //$details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$string."&sensor=false";
    $details_url = "http://nominatim.openstreetmap.org/search?q=".$string."&format=json";   
-//print_r($details_url);
+	print_r($details_url);
  
    $ch = curl_init();
    curl_setopt($ch, CURLOPT_URL, $details_url);
@@ -207,14 +207,35 @@ function lookup($string){
         $response = json_decode(curl_exec($ch), true);
     }
    if (empty($response[0])){
-
 	  $details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$string."&sensor=false";
+  	  print_r($details_url);
 	  $ch = curl_init();
 	  curl_setopt($ch, CURLOPT_URL, $details_url);
 	  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	  $response = json_decode(curl_exec($ch), true);
+   
+	   if ($response['status'] != 'OK') {
+		   	$recursivesearch=$newsearch[count($newsearch)-1].', '.$newsearch[count($newsearch)-2];
+		  	$details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$recursivesearch."&sensor=false";
+	        $ch = curl_init();
+	        curl_setopt($ch, CURLOPT_URL, $details_url);
+	        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	        $response = json_decode(curl_exec($ch), true);
+	   }
+	   
+  $geometry = $response['results'][0]['geometry'];
+    $longitude = $geometry['location']['lng'];
+    $latitude = $geometry['location']['lat'];
 
+    $array = array(
+        'lat' => $geometry['location']['lat'],
+        'long' => $geometry['location']['lng'],
+        'location_type' => $geometry['location_type'],
+    );
+	   
+	return $array;	 
    }
+   
    // If Status Code is ZERO_RESULTS, OVER_QUERY_LIMIT, REQUEST_DENIED or INVALID_REQUEST
 
 
@@ -251,19 +272,8 @@ function lookup($string){
    }
 */
  
-   //print_r($response);
-//   $geometry = $response['results'][0]['geometry'];
- 
-    
-    //$longitude = $geometry['location']['lng'];
-    //$latitude = $geometry['location']['lat'];
-/*
-    $array = array(
-        'lat' => $geometry['location']['lat'],
-        'long' => $geometry['location']['lng'],
-        'location_type' => $geometry['location_type'],
-    );
- */
+//   print_r("Response:");print_r($response);
+
 
     $array = array(
         'lat' => $response[0]['lat'],
