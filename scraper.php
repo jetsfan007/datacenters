@@ -10,7 +10,6 @@ $dom->load($html);
 mb_convert_encoding($dom, "ISO-8859-1", "UTF-8");
 
 $unique_keys=array('country','area','detailarea','datacentercity','datacentername','postalcode','streetaddress','organizationname','latitude','longitude','accuracy');
-scraperwiki::sqliteexecute("create table if not exists ´data.sqlite´.data"); 
 print "Status: checking country: ";
 		                        $record = array(
 		                            'country' => utf8_encode("austria"),
@@ -25,7 +24,7 @@ print "Status: checking country: ";
 		                            'longitude' => utf8_encode("12341234"),
 		                            'accuracy' => utf8_encode("manmade"),
 		                        );
-scraperwiki::save_sqlite($unique_keys, $record, 'data');
+scraperwiki::save_sqlite($unique_keys, $record, ´data.sqlite´.data);
 //foreach($dom->find("div[class='lefttext'] div[class] a") as $data){ 
 //    $bs = $data->find("b");
 //    if(count($bs)==1){
