@@ -11,7 +11,7 @@ mb_convert_encoding($dom, "ISO-8859-1", "UTF-8");
 
 $unique_keys=array('country','area','detailarea','datacentercity','datacentername','postalcode','streetaddress','organizationname','latitude','longitude','accuracy');
 
-print "Status: checking country: "
+print_r("Status: checking country: ");
 
 foreach($dom->find("div[class='lefttext'] div[class] a") as $data){ 
     $bs = $data->find("b");
@@ -31,7 +31,7 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                     $areadom = new simple_html_dom();
                     $areadom->load($areahtml);
                     $address=$area.', '.$country;
-                    print $country.", ";
+                    print_r($country.", ");
 			        foreach($areadom->find("div[class='lefttext'] div[class] a") as $areadata){
 			            $bbbs = $areadata->find("b");
 	            		if(count($bbbs)==1){
