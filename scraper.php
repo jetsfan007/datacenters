@@ -10,7 +10,7 @@ $dom->load($html);
 mb_convert_encoding($dom, "ISO-8859-1", "UTF-8");
 
 $unique_keys=array('country','area','detailarea','datacentercity','datacentername','postalcode','streetaddress','organizationname','latitude','longitude','accuracy');
-$info = scraperwiki::table_info($name="data"); 
+//$info = scraperwiki::table_info($name="data");
 print "Status: checking country: ".$info;
 		                        $record = array(
 		                            'country' => utf8_encode("austria"),
