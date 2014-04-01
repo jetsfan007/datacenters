@@ -10,7 +10,7 @@ $dom->load($html);
 mb_convert_encoding($dom, "ISO-8859-1", "UTF-8");
 
 $unique_keys=array('country','area','detailarea','datacentercity','datacentername','postalcode','streetaddress','organizationname','latitude','longitude','accuracy');
-
+print "Status: checking country: ";
 foreach($dom->find("div[class='lefttext'] div[class] a") as $data){ 
     $bs = $data->find("b");
     if(count($bs)==1){
@@ -23,14 +23,13 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
             $bbs = $countrydata->find("b");
             if(count($bbs)==1){
                 $countryinput = $bbs[0]->plaintext;
-                //print "countryinput: ".$countryinput." ";
                 $area = substr($countryinput,0,strpos($countryinput,' ('));
                 if (strtolower($country)=='usa'){
                     $areahtml = scraperWiki::scrape("http://www.datacentermap.com/".strtolower($country)."/".strtolower($area)."/");
                     $areadom = new simple_html_dom();
                     $areadom->load($areahtml);
                     $address=$area.', '.$country;
-
+                    print $country.", ";
 			        foreach($areadom->find("div[class='lefttext'] div[class] a") as $areadata){
 			            $bbbs = $areadata->find("b");
 	            		if(count($bbbs)==1){
