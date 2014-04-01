@@ -47,9 +47,9 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
 		                        $datacenterhtml = scraperWiki::scrape("http://www.datacentermap.com/".strtolower($country)."/".strtolower($area)."/".strtolower($detailarea)."/".strtolower($datacenterurl));
 		                        $datacenterdom = new simple_html_dom();
 		                        $datacenterdom->load($datacenterhtml);
-		                        if (strcmp($detailarea,$area)!=0){
-		                            $address=$detailarea.', '.$address;
-		                        }
+//		                        if (strcmp($detailarea,$area)!=0){
+//		                            $address=$detailarea.', '.$address;
+//		                        }
 		                        $datacenterstreet=" ";
 		                        $datacentercity=" ";
 		                        $datacenterpostal=" ";
@@ -229,12 +229,19 @@ function lookup($string){
 	  $response = json_decode(curl_exec($ch), true);
    
 	   if ($response['status'] != 'OK') {
-		   	$recursivesearch=$newsearch[count($newsearch)-1].', '.$newsearch[count($newsearch)-2];
+		   	$recursivesearch=$newsearch[count($newsearch)-1].', '.$newsearch[count($newsearch)-2.', '.$newsearch[count($newsearch)-3.', '.$newsearch[count($newsearch)-4];
 		  	$details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$recursivesearch."&sensor=false";
 	        $ch = curl_init();
 	        curl_setopt($ch, CURLOPT_URL, $details_url);
 	        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	        $response = json_decode(curl_exec($ch), true);
+	        if ($response['status'] != 'OK') {
+	        	$details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$newsearch[count($newsearch)-1]."&sensor=false";
+   		        $ch = curl_init();
+		        curl_setopt($ch, CURLOPT_URL, $details_url);
+		        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		        $response = json_decode(curl_exec($ch), true);
+	        }
 	   }
 	   
   $geometry = $response['results'][0]['geometry'];
