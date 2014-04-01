@@ -91,7 +91,7 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
 		                            'longitude' => $locationarray['long'],
 		                            'accuracy' => utf8_encode($locationarray['location_type']),
 		                        );
-		                        scraperwiki::save($unique_keys, $record);
+		                        scraperwiki::save_sqlite($unique_keys, $record, 'data');
 		                        
 		                    }
 	            		}
@@ -155,7 +155,7 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                         );
                         //print json_encode($record) . "\n";
                         
-                        scraperwiki::save($unique_keys, $record);
+                        scraperwiki::save_sqlite($unique_keys, $record, 'data');
                     }
                 }
             }
