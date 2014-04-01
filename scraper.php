@@ -212,7 +212,7 @@ function lookup($string){
     }
    if (empty($response[0])){ //$response[0]['lat']==null
         //print_r('empty, giving up, using '.$newsearch[count($newsearch)-1].', '.$newsearch[count($newsearch)-2]);
-        $recursivesearch=$newsearch[count($newsearch)-1].', '.$newsearch[count($newsearch)-2];
+        $recursivesearch=$newsearch[count($newsearch)-1].', '.$newsearch[count($newsearch)-3];
         $recursivesearch = str_replace (" ", "+", urlencode($recursivesearch));
         $details_url = "http://nominatim.openstreetmap.org/search?q=".$recursivesearch."&format=json";
         $ch = curl_init();
@@ -229,7 +229,7 @@ function lookup($string){
 	  $response = json_decode(curl_exec($ch), true);
    
 	   if ($response['status'] != 'OK') {
-		   	$recursivesearch=$newsearch[count($newsearch)-1].', '.$newsearch[count($newsearch)-2.', '.$newsearch[count($newsearch)-3.', '.$newsearch[count($newsearch)-4];
+		   	$recursivesearch=$newsearch[count($newsearch)-1].', '.$newsearch[count($newsearch)-2].', '.$newsearch[count($newsearch)-3].', '.$newsearch[count($newsearch)-4];
 		  	$details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$recursivesearch."&sensor=false";
 	        $ch = curl_init();
 	        curl_setopt($ch, CURLOPT_URL, $details_url);
