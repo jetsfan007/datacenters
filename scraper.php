@@ -24,7 +24,7 @@ print "Status: checking country: ";
 		                            'longitude' => utf8_encode("12341234"),
 		                            'accuracy' => utf8_encode("manmade"),
 		                        );
-scraperwiki::save_sqlite($unique_keys, $record, ´data.sqlite´.data);
+scraperwiki::save_sqlite($unique_keys, $record, 'data');
 //foreach($dom->find("div[class='lefttext'] div[class] a") as $data){ 
 //    $bs = $data->find("b");
 //    if(count($bs)==1){
