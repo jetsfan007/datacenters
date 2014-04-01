@@ -21,6 +21,7 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
         $countryhtml = scraperWiki::scrape("http://www.datacentermap.com/".strtolower($country)."/");
         $countrydom = new simple_html_dom();
         $countrydom->load($countryhtml);
+        print_r($country.",");
         foreach($countrydom->find("div[class='lefttext'] div[class] a") as $countrydata){
             $bbs = $countrydata->find("b");
             if(count($bbs)==1){
@@ -31,7 +32,7 @@ foreach($dom->find("div[class='lefttext'] div[class] a") as $data){
                     $areadom = new simple_html_dom();
                     $areadom->load($areahtml);
                     $address=$area.', '.$country;
-                    print_r($country.", ");
+                    print_r($area.",");
 			        foreach($areadom->find("div[class='lefttext'] div[class] a") as $areadata){
 			            $bbbs = $areadata->find("b");
 	            		if(count($bbbs)==1){
